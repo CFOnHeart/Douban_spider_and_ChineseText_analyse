@@ -34,11 +34,35 @@ def save_model(model, model_name):
         model.save('resource/word2vec_model/'+model_name)
         print "Logging: 你要保存的语料模型 "+model_name+" 已经成功保存"
 
+def save_model_bin(model, model_name):
+    if os.path.exists('resource/word2vec_model/'+model_name) == True:
+        print "Warnning: 你要加载的语料模型 "+model_name+" 已经存在"
+        while True:
+            print "输入Y/N(Y表示覆盖此模型文件,N表示不保存当前模型),按回车结束: "
+            val = raw_input()
+            if val[0] == 'Y' and len(val) == 1:
+                model.save('resource/word2vec_model/'+model_name)
+                print "Logging: 你要保存的语料模型 "+model_name+" 已经成功覆盖"
+                break
+            elif val[0] == 'N' and len(val) == 1:
+                print "Logging: 你已经取消保存语料模型 "+model_name
+                break
+    else:
+        model.save_word2vec_format('resource/word2vec_model/'+model_name, binary=True)
+        print "Logging: 你要保存的语料模型 "+model_name+" 已经成功保存"
+
+
 # 加载语料模型
 def load_model(model_name):
     if os.path.exists('resource/word2vec_model/'+model_name) == False:
         print "Error: 你要加载的语料模型 "+model_name+" 不存在"
     return word2vec.load('resource/word2vec_model/'+model_name)
+
+
+def load_model_bin(model_name):
+    if os.path.exists('resource/word2vec_model/'+model_name) == False:
+        print "Error: 你要加载的语料模型 "+model_name+" 不存在"
+    return word2vec.load_word2vec_format('resource/word2vec_model/'+model_name, binary=True)
 
 
 def test():
