@@ -14,7 +14,7 @@ if __name__ == "__main__":
     }
 
     # 这里是将标签为文学的书进行爬取的,也可以改成别的类型的,range中的数字就代表了要翻页的信息
-    urls = ['https://book.douban.com/tag/%E5%B0%8F%E8%AF%B4?start='+format(str(i)) for i in range(0, 20, 20)]
+    urls = ['https://book.douban.com/tag/%E5%B0%8F%E8%AF%B4?start='+format(str(i)) for i in range(400, 600, 20)]
 
     for url in urls:
         print url+'&type=T'

@@ -86,7 +86,7 @@ def get_book_info(url):
     if len(ISBN) > 0:
         ISBN = ISBN[0]
     else:
-        ISBN = u"暂无"
+        ISBN = u"-1"
     if len(ISBN) > 0 and ISBN[0] == ' ':
         ISBN = ISBN[1:]
 

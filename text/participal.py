@@ -39,7 +39,7 @@ def text_keywords_extract(text, topk):
 
 # 载入词典,增加的词典文件均放在resource/word_dictionary文件下
 def add_dictionary(dic):
-    if os.path.exists(dic):
+    if os.path.exists(dic) == False:
         print "需要加载的字典文件: "+dic+" 不存在"
     else:
         jieba.load_userdict(dic)

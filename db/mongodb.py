@@ -29,10 +29,11 @@ class Mongodb:
     # 返回1表示数据插入成功
     # 返回0表示当前数据在collection已经存在
     def insert_data(self, collection, data):
-        if not self.query_data(collection, data):
+        if not collection.find_one({'ISBN': data['ISBN']}):
             collection.insert_one(data)
             return 1
         else:
+
             return 0
 
 

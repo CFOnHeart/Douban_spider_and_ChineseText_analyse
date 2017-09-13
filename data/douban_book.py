@@ -34,7 +34,6 @@ def write_douban_books_to_mongodb(book, collection):
     # 判断此书是否已经存在于数据库中,如果已经存在相同的,则不再插入
     ret = mongo.insert_data(collection, info)
     if ret == 1:
-        collection.insert_one(info)
         print u"Logging: 书名为: " + book.book_name + u" 的书成功存入mongodb"
     elif ret == 0:
         print u"Warning: 书名为: " + book.book_name + u" 未能存入mongodb,因为有相同ISBN的书存在"

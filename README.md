@@ -7,7 +7,7 @@
 3. 负责处理豆瓣书籍数据对象的douban_book.py
 4. 负责整理评论信息的用作语料库的text_presolve.py
 5. 负责利用jieba分词工具对原文本文件进行分词的participal.py
-6. 用于对文本分析词向量的word2vec.py
+6. 用于对文本分析词向量的my_word2vec.py
 
 ## 资源(resource)模块介绍
 1. initial_text放入的是初始的未经过分词的文本
@@ -26,4 +26,4 @@
 1. 运行douban_book_spider.py中的代码
 2. 运行text_presolve.py中的代码
 3. 运行participal.py中的代码
-4. 运行word2vec.py中的代码
+4. 运行my_word2vec.py中的代码
