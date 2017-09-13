@@ -1,6 +1,7 @@
 # coding=utf8
 
-import mongodb
+from db import mongodb
+
 
 class Douban_book:
 

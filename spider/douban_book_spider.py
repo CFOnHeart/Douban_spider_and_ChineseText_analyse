@@ -1,14 +1,18 @@
 # coding=utf8
 
 import re
-import requests
+
 import pymongo
+import requests
 from bs4 import BeautifulSoup
-import douban_book
+
+from data import douban_book
 
 
 # 根据url获取页面对象,如果要获得html文档,就需要加一个text属性,html.text
-def get_html(url):
+def get_html(url, headers={
+        'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
+    }):
     print url
     html = requests.get(url, headers=headers)
     return html
@@ -110,28 +114,28 @@ def get_book_info(url):
     return book
 
 
-#
-# if __name__ == "__main__":
-#
-#     client = pymongo.MongoClient('localhost', 27017)
-#     database = client['douban'] #数据库名
-#     collection = database['book'] #对应数据库中表的名字
-#     headers = {
-#         'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
-#     }
-#
-#     # 这里是将标签为文学的书进行爬取的,也可以改成别的类型的,range中的数字就代表了要翻页的信息
-#     urls = ['https://book.douban.com/tag/%E5%B0%8F%E8%AF%B4?start='+format(str(i)) for i in range(0, 20, 20)]
-#
-#     for url in urls:
-#         print url+'&type=T'
-#         html = get_html(url+'&type=T')
-#         books_url = get_book_list(html)
-#         for book_url in books_url:
-#             # 获取到书的完整对象
-#             book = get_book_info(book_url)
-#             # 将书存入mongodb中
-#             douban_book.write_douban_books_to_mongodb(book, collection)
-#
-#     print client
+# 下方完成了从爬取数据到存入数据库的操作
+if __name__ == "__main__":
+
+    client = pymongo.MongoClient('localhost', 27017)
+    database = client['douban'] #数据库名
+    collection = database['book'] #对应数据库中表的名字
+    headers = {
+        'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
+    }
+
+    # 这里是将标签为文学的书进行爬取的,也可以改成别的类型的,range中的数字就代表了要翻页的信息
+    urls = ['https://book.douban.com/tag/%E5%B0%8F%E8%AF%B4?start='+format(str(i)) for i in range(0, 20, 20)]
+
+    for url in urls:
+        print url+'&type=T'
+        html = get_html(url+'&type=T')
+        books_url = get_book_list(html)
+        for book_url in books_url:
+            # 获取到书的完整对象
+            book = get_book_info(book_url)
+            # 将书存入mongodb中
+            douban_book.write_douban_books_to_mongodb(book, collection)
+
+    print client
 

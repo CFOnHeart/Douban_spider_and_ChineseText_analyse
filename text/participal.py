@@ -4,6 +4,7 @@ import jieba
 import jieba.posseg as pseg
 from jieba import analyse
 import codecs
+import os
 
 # 读取文章内容
 def read_article(filename):
@@ -38,7 +39,11 @@ def text_keywords_extract(text, topk):
 
 # 载入词典,增加的词典文件均放在resource/word_dictionary文件下
 def add_dictionary(dic):
-    jieba.load_userdict(dic)
+    if os.path.exists(dic):
+        print "需要加载的字典文件: "+dic+" 不存在"
+    else:
+        jieba.load_userdict(dic)
+        print "需要加载的字典文件: "+dic+" 已经成功加载"
 
 # 对text词性标注
 def part_of_speech(text):
@@ -48,7 +53,8 @@ def part_of_speech(text):
     #     print('%s %s' % (word, flag))
     return words
 
-# 下方是对本脚本的测试代码
-add_dictionary('resource/word_dictionary/comment_dic.txt')
-text_participle('resource/initial_text/douban_comments.txt', 'resource/participal_text/douban_comments_participle.txt')
+# 下方是对本脚本的测试代码,完成了对豆瓣评论文件的分词操作后保存
+if __name__ == "__main__":
+    add_dictionary('resource/word_dictionary/comment_dic.txt')
+    text_participle('resource/initial_text/douban_comments.txt', 'resource/participal_text/douban_comments_participal.txt')
 
