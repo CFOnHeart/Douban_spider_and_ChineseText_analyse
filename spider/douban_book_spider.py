@@ -8,13 +8,25 @@ from bs4 import BeautifulSoup
 
 from data import douban_book
 
+# 激活一次与页面的链接，'Connection': 'keep-alive'保持活力，那么之后不需要cookie也能进入了
+def activate_cookie(url, headers={
+        'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
+        'Cache-Control':   'max-age=0',
+        'Connection': 'keep-alive',
+        'Cookie': 'bid=EjVfNuCFCCc; __yadk_uid=p7eO16BlyhEZGRS5OFrIZLONj1oQIFfJ; gr_user_id=9f9ee961-658f-4d94-9064-6456ddc74420; ll="118159"; _vwo_uuid_v2=6F188EB37C02AF8DC97FD5D1A469D383|c652b51c9b96af699095d2f2d5378abe; ps=y; __utma=30149280.185030239.1505136888.1514481776.1517553762.19; __utmc=30149280; __utmz=30149280.1517553762.19.16.utmcsr=open.weixin.qq.com|utmccn=(referral)|utmcmd=referral|utmcct=/connect/qrconnect; push_noty_num=0; push_doumail_num=0; gr_cs1_0d411a4f-9fb6-4843-8b80-83a66830df18=user_id%3A1; ap=1; _pk_ref.100001.8cb4=%5B%22%22%2C%22%22%2C1517555178%2C%22https%3A%2F%2Fbook.douban.com%2Fsubject%2F2230208%2F%22%5D; _pk_ses.100001.8cb4=*; gr_session_id_22c937bbd8ebd703f2d8e9445f7dfd03=a42eeb1e-0dd3-4ba2-a089-7b0b769cfbb7; gr_cs1_a42eeb1e-0dd3-4ba2-a089-7b0b769cfbb7=user_id%3A0; __utmt_douban=1; viewed="26957760_26986954_26871657_25831096_2131426_1082334_20428302_25862578_2044626_24697776"; ue="junnorgan@sohu.com"; dbcl2="173425388:SCTdvt66y20"; ck=LI5z; _pk_id.100001.8cb4=cb1c59d8ae794cd9.1492239201.22.1517556092.1514481774.; __utmt=1; __utmv=30149280.17342; __utmb=30149280.12.10.1517553762'
+    }):
+    html = requests.get(url, headers=headers)
+    return html
 
 # 根据url获取页面对象,如果要获得html文档,就需要加一个text属性,html.text
 def get_html(url, headers={
         'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
     }):
-    cookie = 'bid=EjVfNuCFCCc; gr_user_id=9f9ee961-658f-4d94-9064-6456ddc74420; __yadk_uid=XwVrfgcLSuBMVLt2UNwbLulINc185J5o; ll="118159"; viewed="26871657_25831096_2131426_1082334_20428302_25862578_2044626_24697776_1017143_3609132"; _vwo_uuid_v2=6F188EB37C02AF8DC97FD5D1A469D383|c652b51c9b96af699095d2f2d5378abe; __utmv=30149280.16664; as="https://sec.douban.com/b?r=https%3A%2F%2Fbook.douban.com%2Ftag%2F%25E5%25B0%258F%25E8%25AF%25B4%3Fstart%3D0%26type%3DT"; ps=y; dbcl2="166649090:AKHUIr4F6e8"; ck=nt8z; _pk_ref.100001.3ac3=%5B%22%22%2C%22%22%2C1517553761%2C%22https%3A%2F%2Fopen.weixin.qq.com%2Fconnect%2Fqrconnect%3Fappid%3Dwxd9c1c6bbd5d59980%26redirect_uri%3Dhttps%253A%252F%252Fwww.douban.com%252Faccounts%252Fconnect%252Fwechat%252Fcallback%26response_type%3Dcode%26scope%3Dsnsapi_login%26state%3DEjVfNuCFCCc%252523None%252523https%25253A%252F%252Fbook.douban.com%252Ftag%252F%252525E5%252525B0%2525258F%252525E8%252525AF%252525B4%25253Fstart%25253D0%252526type%25253DT%22%5D; _pk_id.100001.3ac3=72985e7888c7f96d.1505136887.6.1517553761.1505289680.; _pk_ses.100001.3ac3=*; __utma=30149280.185030239.1505136888.1514481776.1517553762.19; __utmc=30149280; __utmz=30149280.1517553762.19.16.utmcsr=open.weixin.qq.com|utmccn=(referral)|utmcmd=referral|utmcct=/connect/qrconnect; __utmt_douban=1; __utmb=30149280.1.10.1517553762; __utma=81379588.2065733411.1505136888.1505289680.1517553762.6; __utmc=81379588; __utmz=81379588.1517553762.6.3.utmcsr=open.weixin.qq.com|utmccn=(referral)|utmcmd=referral|utmcct=/connect/qrconnect; __utmt=1; __utmb=81379588.1.10.1517553762; push_noty_num=0; push_doumail_num=0'
-    headers['Cookie'] = cookie
+    # cookie = 'bid=EjVfNuCFCCc; __yadk_uid=p7eO16BlyhEZGRS5OFrIZLONj1oQIFfJ; gr_user_id=9f9ee961-658f-4d94-9064-6456ddc74420; ll="118159"; _vwo_uuid_v2=6F188EB37C02AF8DC97FD5D1A469D383|c652b51c9b96af699095d2f2d5378abe; ps=y; __utma=30149280.185030239.1505136888.1514481776.1517553762.19; __utmc=30149280; __utmz=30149280.1517553762.19.16.utmcsr=open.weixin.qq.com|utmccn=(referral)|utmcmd=referral|utmcct=/connect/qrconnect; push_noty_num=0; push_doumail_num=0; gr_cs1_0d411a4f-9fb6-4843-8b80-83a66830df18=user_id%3A1; ap=1; _pk_ref.100001.8cb4=%5B%22%22%2C%22%22%2C1517555178%2C%22https%3A%2F%2Fbook.douban.com%2Fsubject%2F2230208%2F%22%5D; _pk_ses.100001.8cb4=*; gr_session_id_22c937bbd8ebd703f2d8e9445f7dfd03=a42eeb1e-0dd3-4ba2-a089-7b0b769cfbb7; gr_cs1_a42eeb1e-0dd3-4ba2-a089-7b0b769cfbb7=user_id%3A0; __utmt_douban=1; viewed="26957760_26986954_26871657_25831096_2131426_1082334_20428302_25862578_2044626_24697776"; ue="junnorgan@sohu.com"; dbcl2="173425388:SCTdvt66y20"; ck=LI5z; _pk_id.100001.8cb4=cb1c59d8ae794cd9.1492239201.22.1517556092.1514481774.; __utmt=1; __utmv=30149280.17342; __utmb=30149280.12.10.1517553762'
+    # headers['Cookie'] = cookie
     print url
     html = requests.get(url, headers=headers)
     return html
@@ -34,7 +46,7 @@ def get_book_list(html):
 
 
 # 根据每本书的页面链接,读取每本书的信息,返回对应豆瓣书的对象
-def get_book_info(url):
+def get_book_info(url, iter=0):
     print u"当前书的url地址为: "+url
     html = get_html(url)
     soup = BeautifulSoup(html.text, 'lxml')
@@ -114,6 +126,11 @@ def get_book_info(url):
     print u"书的ISBN编号: "+str(book.ISBN)
     # print book.content
     # print book.comment
+    if book.ISBN==-1:
+        print "error:\n", html
+        # 访问页面失败，重复访问，至少10次
+        if iter < 10:
+            get_book_info(url, iter+1)
     return book
 
 
@@ -130,6 +147,7 @@ if __name__ == "__main__":
     # 这里是将标签为文学的书进行爬取的,也可以改成别的类型的,range中的数字就代表了要翻页的信息
     urls = ['https://book.douban.com/tag/%E5%B0%8F%E8%AF%B4?start='+format(str(i)) for i in range(0, 20, 20)]
 
+    activate_cookie('https://www.douban.com')
     for url in urls:
         print url+'&type=T'
         html = get_html(url+'&type=T')

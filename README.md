@@ -1,4 +1,9 @@
 # Douban_spider_and_ChineseText_analyse
+## 安装python 依赖
+1. pip install pymongo
+2. pip install lxml
+3. pip install bs4
+
 **本项目最主要的目的是为了构建用豆瓣上的评论信息所得的数据来构建中文语料库进行分析统计**
 
 ## 本模块主要有:
