@@ -13,6 +13,8 @@ from data import douban_book
 def get_html(url, headers={
         'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
     }):
+    cookie = 'bid=EjVfNuCFCCc; gr_user_id=9f9ee961-658f-4d94-9064-6456ddc74420; __yadk_uid=XwVrfgcLSuBMVLt2UNwbLulINc185J5o; ll="118159"; viewed="26871657_25831096_2131426_1082334_20428302_25862578_2044626_24697776_1017143_3609132"; _vwo_uuid_v2=6F188EB37C02AF8DC97FD5D1A469D383|c652b51c9b96af699095d2f2d5378abe; __utmv=30149280.16664; as="https://sec.douban.com/b?r=https%3A%2F%2Fbook.douban.com%2Ftag%2F%25E5%25B0%258F%25E8%25AF%25B4%3Fstart%3D0%26type%3DT"; ps=y; dbcl2="166649090:AKHUIr4F6e8"; ck=nt8z; _pk_ref.100001.3ac3=%5B%22%22%2C%22%22%2C1517553761%2C%22https%3A%2F%2Fopen.weixin.qq.com%2Fconnect%2Fqrconnect%3Fappid%3Dwxd9c1c6bbd5d59980%26redirect_uri%3Dhttps%253A%252F%252Fwww.douban.com%252Faccounts%252Fconnect%252Fwechat%252Fcallback%26response_type%3Dcode%26scope%3Dsnsapi_login%26state%3DEjVfNuCFCCc%252523None%252523https%25253A%252F%252Fbook.douban.com%252Ftag%252F%252525E5%252525B0%2525258F%252525E8%252525AF%252525B4%25253Fstart%25253D0%252526type%25253DT%22%5D; _pk_id.100001.3ac3=72985e7888c7f96d.1505136887.6.1517553761.1505289680.; _pk_ses.100001.3ac3=*; __utma=30149280.185030239.1505136888.1514481776.1517553762.19; __utmc=30149280; __utmz=30149280.1517553762.19.16.utmcsr=open.weixin.qq.com|utmccn=(referral)|utmcmd=referral|utmcct=/connect/qrconnect; __utmt_douban=1; __utmb=30149280.1.10.1517553762; __utma=81379588.2065733411.1505136888.1505289680.1517553762.6; __utmc=81379588; __utmz=81379588.1517553762.6.3.utmcsr=open.weixin.qq.com|utmccn=(referral)|utmcmd=referral|utmcct=/connect/qrconnect; __utmt=1; __utmb=81379588.1.10.1517553762; push_noty_num=0; push_doumail_num=0'
+    headers['Cookie'] = cookie
     print url
     html = requests.get(url, headers=headers)
     return html
@@ -23,6 +25,7 @@ def get_book_list(html):
     book_list = []
     soup = BeautifulSoup(html.text, 'lxml')
     # select用于获得一个节点元素,这里获得了对应每本书链接<a></a>标签的元素,我们所需要的每本书的界面链接就保存在当中book['href']
+    print soup
     books = soup.select('.pic > .nbg')
     for book in books:
         # print book['href']
